@@ -74,7 +74,7 @@ function App() {
               className="login-input" 
             />
           </div>
-          <button type="submit" className="login-button">
+          <button type="submit" className="login-button bg-success">
             Iniciar sesión
           </button>
         </form>
