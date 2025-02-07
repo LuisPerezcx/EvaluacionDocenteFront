@@ -27,7 +27,6 @@ function App() {
     try{
       const response = await LoginService.login(username, password);
       if (response.status ===200){
-        console.log(response);
         const userData = {
           rol: response.data.rol,
           nombre: response.data.nombre

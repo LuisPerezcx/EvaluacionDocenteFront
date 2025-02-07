@@ -1,6 +1,6 @@
 import axiosInstance from '../api/axiosConfig';
 
-const API_URL = '/alumnos';
+const API_URL = '/alumno';
 
 const getAll = async () => {
     try {
@@ -24,7 +24,7 @@ const create = async (alumno) => {
 const updatePassword = async (datosAct) => {
     try {
         const response = await axiosInstance.post(`${API_URL}/actualiza-contrasenia`, datosAct);
-        return response.data;
+        return {data:response.data};
     } catch (error) {
         throw error.response.data;
     }
@@ -48,10 +48,20 @@ const deleteAlumno = async (id) => {
     }
 };
 
+const getMaestrosbyAlumno = async (id) => {
+    try {
+        const response = await axiosInstance.get(`${API_URL}/${id}/maestros`);
+        return {data:response.data};
+    } catch (error) {
+        throw error.response.data;
+    }
+};
+
 export default {
     getAll,
     create,
     update,
     deleteAlumno,
-    updatePassword
+    updatePassword,
+    getMaestrosbyAlumno,
 };

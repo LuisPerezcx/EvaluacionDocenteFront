@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';  
 import '../Styles/PrincipalPage.css';
 import NavBar from '../components/NavBar';
 import { Button, List, ListItem, ListItemText, Typography, Dialog, DialogTitle, DialogContent, DialogActions, Paper } from '@mui/material';
+import AlumnoService from '../../../services/AlumnoService';
 
 const PrincipalPage = () => {
-  const userData = JSON.parse(localStorage.getItem('userData'));
+  const userData = JSON.parse(localStorage.getItem('userData')) || {};
   const [open, setOpen] = useState(false);
+  const [maestrosSelect, setMaestrosSelect] = useState([]);
   const [selectedProfessor, setSelectedProfessor] = useState(null);
   const navigate = useNavigate();  
 
@@ -16,6 +19,34 @@ const PrincipalPage = () => {
     { id: 3, name: 'Profesor 3' },
     { id: 4, name: 'Profesor 4' },
   ];
+
+  useEffect(() => {
+    const obtenerMaestros = async () => {
+      setMaestrosSelect([{ }]);
+
+      let id = userData.id;
+      try{
+        const response = await AlumnoService.getMaestrosbyAlumno(id);
+        
+        if (response && response.data) {
+          const opciones = response.data.map((item) => {
+            return {
+              value: item.id_maestro,
+              label: `${item.nombre_maestro} ${item.apellido_maestro} (${item.nombre_materia})`
+            };
+          });
+          setMaestrosSelect((prev) => [...prev, ...opciones]);
+        }
+      } catch(error){
+        console.log("Error al obtener maestros: ", error);
+      }
+    }
+
+    if(userData.id){
+      obtenerMaestros();
+    }
+    
+  },[userData?.id]);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -58,11 +89,17 @@ const PrincipalPage = () => {
         <DialogTitle>Selecciona un profesor</DialogTitle>
         <DialogContent dividers>
           <List>
-            {professors.map((professor) => (
-              <ListItem button key={professor.id} onClick={() => handleSelectProfessor(professor)}>
-                <ListItemText primary={professor.name} />
+            {maestrosSelect.length === 1 ? (
+              <ListItem>
+                <ListItemText primary="Cargando maestros..." />
               </ListItem>
-            ))}
+            ) : (
+              maestrosSelect.map((professor) => (
+                <ListItem button key={professor.value} onClick={() => handleSelectProfessor(professor)}>
+                  <ListItemText primary={professor.label} />
+                </ListItem>
+              ))
+            )}
           </List>
         </DialogContent>
         <DialogActions>
