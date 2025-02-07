@@ -47,32 +47,33 @@ const PrincipalPage = () => {
         </div>
       </div>
       <div className="main-content">
-        <div className="card-container">
-          {/* Cuadro de formulario solo visible para el usuario con rol 1 (Alumno) */}
-          {userData.rol === 1 && (
-            <div className="card">
-              <h3>Formulario de evaluación</h3>
-              <button className="button" onClick={handleOpen}>Calificar maestro</button>
-            </div>
-          )}
-
-          {/* Cuadro de Alumnos visible solo para el usuario con rol 2 (Administrativo) */}
-          {userData.rol === 2 && (
-            <div className="card">
-              <h3>Alumnos</h3>
-              <button className="button">Ingresar</button>
-            </div>
-          )}
-
-          {/* Cuadro de Maestros visible solo para el usuario con rol 2 (Administrativo) */}
-          {userData.rol === 2 && (
-            <div className="card">
-              <h3>Maestros</h3>
-              <button className="button">Ingresar</button>
-            </div>
-          )}
-        </div>
+  <div className="card-container">
+    {/* Cuadro de formulario solo visible para el usuario con rol 1 (Alumno) */}
+    {userData.rol === 1 && (
+      <div className="card">
+        <h3>Formulario de evaluación</h3>
+        <button className="button" onClick={handleOpen}>Calificar maestro</button>
       </div>
+    )}
+
+    {/* Cuadro de Alumnos visible solo para el usuario con rol 2 (Administrativo) */}
+    {userData.rol === 2 && (
+      <div className="card">
+        <h3>Alumnos</h3>
+        <button className="button">Ingresar</button>
+      </div>
+    )}
+
+    {/* Cuadro de Maestros visible solo para el usuario con rol 2 (Administrativo) */}
+    {userData.rol === 2 && (
+      <div className="card">
+        <h3>Maestros</h3>
+        <button className="button">Ingresar</button>
+      </div>
+    )}
+  </div>
+</div>
+
 
       {/* Modal sin oscurecer el fondo */}
       <Dialog open={open} onClose={handleClose} PaperComponent={Paper}>
