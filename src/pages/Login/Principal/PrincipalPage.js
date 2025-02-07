@@ -13,17 +13,21 @@ const PrincipalPage = () => {
   const [selectedProfessor, setSelectedProfessor] = useState(null);
   const navigate = useNavigate();
 
+
   useEffect(() => {
     const obtenerMaestros = async () => {
-      setMaestrosSelect([{ }]);
+      setMaestrosSelect([]);
+
       let id = userData.id;
       try {
         const response = await AlumnoService.getMaestrosbyAlumno(id);
         if (response && response.data) {
-          const opciones = response.data.map((item) => ({
-            value: `${item.id_maestro}-${item.id_materia}`,
-            label: `${item.nombre_maestro} ${item.apellido_maestro} (${item.nombre_materia})`
-          }));
+          const opciones = response.data.map((item) => {
+            return {
+              value: String(item.id_maestro)  +'-'+ String(item.id_materia) + '-' + item.nombre_materia,
+              label: `${item.nombre_maestro} ${item.apellido_maestro} (${item.nombre_materia})`
+            };
+          });
           setMaestrosSelect((prev) => [...prev, ...opciones]);
         }
       } catch (error) {
@@ -42,8 +46,10 @@ const PrincipalPage = () => {
   const handleSelectProfessor = (professor) => {
     setSelectedProfessor(professor);
     handleClose();
-    const [id_maestro, id_materia] = professor.value.split('-');
-    navigate('/formulario-calificaciones', { state: { id_maestro, id_materia, professorName: professor.label } });
+
+    const [id_maestro, id_materia, nombre_materia] = professor.value.split('-');
+
+    navigate('/formulario-calificaciones', { state: { id_alumno:userData?.id, id_maestro, id_materia, professorName: professor.labelm, nombre_materia } });
   };
 
   const handleNavigate = (route) => {
