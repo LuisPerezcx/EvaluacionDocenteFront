@@ -6,7 +6,8 @@ import FormularioCalificaciones from './pages/Login/Formulario/FormularioCalific
 import { Alumnos } from './pages/Alumnos/Alumnos';
 import { Administradores } from './pages/Administradores/Administradores';
 import ProtectedRoute from './components/ProtectedRoute';
-import {Maestros} from './pages/Maestros/Maestros';
+import { Maestros } from './pages/Maestros/Maestros';
+import ResultadosEvaluaciones from './pages/Resultados/ResultadosEvaluaciones';
 
 
 const AppRoutes = () => {
@@ -14,8 +15,8 @@ const AppRoutes = () => {
     <Routes>
       <Route path="/" element={<Login />} />
       {/* Rutas protegidas */}
-      <Route 
-        path="/principal" 
+      <Route
+        path="/principal"
         element={
           <ProtectedRoute allowedUserIds={[1, 2, 3]}>  {/* Solo los usuarios con id 1 o 2 */}
             <PrincipalPage />
@@ -23,8 +24,8 @@ const AppRoutes = () => {
         }
       />
 
-      <Route 
-        path="/formulario-calificaciones" 
+      <Route
+        path="/formulario-calificaciones"
         element={
           <ProtectedRoute allowedUserIds={[1]}>  {/* Solo el usuario con id 1 */}
             <FormularioCalificaciones />
@@ -32,8 +33,8 @@ const AppRoutes = () => {
         }
       />
 
-      <Route 
-        path="/Alumnos" 
+      <Route
+        path="/Alumnos"
         element={
           <ProtectedRoute allowedUserIds={[2]}>  {/* Solo el usuario con id 2 */}
             <Alumnos />
@@ -41,15 +42,31 @@ const AppRoutes = () => {
         }
       />
 
-      <Route 
-        path="/Administradores" 
+      <Route
+        path="/Administradores"
         element={
           <ProtectedRoute allowedUserIds={[2]}>  {/* Solo el usuario con id 2 */}
             <Administradores />
           </ProtectedRoute>
         }
       />
-      <Route path='/Maestros' element={<Maestros/>} />
+      <Route
+        path='/Maestros'
+        element={
+          <ProtectedRoute allowedUserIds={[2]}>  
+            <Maestros />
+          </ProtectedRoute>
+        }
+      />
+
+<Route
+        path='/Resultados'
+        element={
+          <ProtectedRoute allowedUserIds={[2]}>  
+            <ResultadosEvaluaciones />
+          </ProtectedRoute>
+        }
+      />
     </Routes>
   );
 };

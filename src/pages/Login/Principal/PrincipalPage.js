@@ -88,6 +88,10 @@ const PrincipalPage = () => {
                   <h3>Maestros</h3>
                   <button className="button" onClick={() => navigate('/maestros')}>Ingresar</button>
                 </div>
+                <div className="card">
+                  <h3>Resultados</h3>
+                  <button className="button" onClick={() => navigate('/Resultados')}>Ingresar</button>
+                </div>
               </>
             )}
           </div>
