@@ -4,10 +4,12 @@ import '../Styles/PrincipalPage.css';
 import NavBar from '../components/NavBar';
 import  FooterComponent  from '../../../components/FooterComponent';
 import { Button, List, ListItem, ListItemText, Dialog, DialogTitle, DialogContent, DialogActions, Paper } from '@mui/material';
+import AlumnoService from '../../../services/AlumnoService';
 
 const PrincipalPage = () => {
-  const [userData, setUserData] = useState(null);
+  const userData = JSON.parse(localStorage.getItem('userData')) || {};
   const [open, setOpen] = useState(false);
+  const [maestrosSelect, setMaestrosSelect] = useState([]);
   const [selectedProfessor, setSelectedProfessor] = useState(null);
   const navigate = useNavigate();
 
@@ -19,10 +21,33 @@ const PrincipalPage = () => {
   ];
 
   useEffect(() => {
-    // Obtener los datos del usuario desde localStorage
-    const storedUserData = JSON.parse(localStorage.getItem('userData'));
-    setUserData(storedUserData);  // Almacenar los datos del usuario en el estado
-  }, []);  // Se ejecuta una sola vez al cargar el componente
+    const obtenerMaestros = async () => {
+      setMaestrosSelect([{ }]);
+
+      let id = userData.id;
+      try{
+        const response = await AlumnoService.getMaestrosbyAlumno(id);
+        
+        if (response && response.data) {
+          const opciones = response.data.map((item) => {
+            return {
+              value: String(item.id_maestro)  +'-'+ String(item.id_materia),
+              label: `${item.nombre_maestro} ${item.apellido_maestro} (${item.nombre_materia})`
+            };
+          });
+          setMaestrosSelect((prev) => [...prev, ...opciones]);
+        }
+      } catch(error){
+        console.log("Error al obtener maestros: ", error);
+      }
+    }
+
+    if(userData.id){
+      obtenerMaestros();
+    }
+    
+  },[userData?.id]);
+
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -30,7 +55,10 @@ const PrincipalPage = () => {
   const handleSelectProfessor = (professor) => {
     setSelectedProfessor(professor);
     handleClose();
-    navigate('/formulario-calificaciones', { state: { professorName: professor.name } });
+
+    const [id_maestro, id_materia] = professor.value.split('-');
+
+    navigate('/formulario-calificaciones', { state: { id_maestro, id_materia, professorName: professor.label } });
   };
 
   // Si no hay datos de usuario, puedes mostrar una carga o mensaje de error
@@ -83,11 +111,17 @@ const PrincipalPage = () => {
         <DialogTitle>Selecciona un profesor</DialogTitle>
         <DialogContent dividers>
           <List>
-            {professors.map((professor) => (
-              <ListItem button key={professor.id} onClick={() => handleSelectProfessor(professor)}>
-                <ListItemText primary={professor.name} />
+            {maestrosSelect.length === 1 ? (
+              <ListItem>
+                <ListItemText primary="Cargando maestros..." />
               </ListItem>
-            ))}
+            ) : (
+              maestrosSelect.map((professor) => (
+                <ListItem button key={professor.value} onClick={() => handleSelectProfessor(professor)}>
+                  <ListItemText primary={professor.label} />
+                </ListItem>
+              ))
+            )}
           </List>
         </DialogContent>
         <DialogActions>
