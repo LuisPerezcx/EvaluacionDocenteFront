@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';  
 import '../Styles/PrincipalPage.css';
 import NavBar from '../components/NavBar';
-import { Button, List, ListItem, ListItemText, Typography, Dialog, DialogTitle, DialogContent, DialogActions, Paper } from '@mui/material';
+import { Button, List, ListItem, ListItemText, Dialog, DialogTitle, DialogContent, DialogActions, Paper } from '@mui/material';
 
 const PrincipalPage = () => {
   const [open, setOpen] = useState(false);
   const [selectedProfessor, setSelectedProfessor] = useState(null);
   const navigate = useNavigate();  
+
+  const [userId, setUserId] = useState(1);
 
   const professors = [
     { id: 1, name: 'Profesor 1' },
@@ -24,7 +26,6 @@ const PrincipalPage = () => {
     handleClose();
     navigate('/formulario-calificaciones', { state: { professorName: professor.name } });
   };
-  
 
   return (
     <div className="page-container">
@@ -32,18 +33,27 @@ const PrincipalPage = () => {
 
       <div className="main-content">
         <div className="card-container">
+          {/* Cuadro 1 solo visible para usuario con ID 1 */}
+          {userId === 1 && (
+            <div className="card">
+              <h3>Alumnos</h3>
+              <button className="button">Ingresar</button>
+            </div>
+          )}
+
+          {/* Cuadro 2 visible para todos los usuarios */}
           <div className="card">
-            <h3>Cuadro 1</h3>
-            <button className="button">Botón 1</button>
-          </div>
-          <div className="card">
-            <h3>Cuadro 2</h3>
+            <h3>Formulario de evaluacion</h3>
             <button className="button" onClick={handleOpen}>Calificar maestro</button>
           </div>
-          <div className="card">
-            <h3>Cuadro 3</h3>
-            <button className="button">Botón 3</button>
-          </div>
+
+          {/* Cuadro 3 solo visible para usuarios con ID diferente a 2 */}
+          {userId !== 2 && (
+            <div className="card">
+              <h3>Maestros</h3>
+              <button className="button">Ingresar</button>
+            </div>
+          )}
         </div>
       </div>
 

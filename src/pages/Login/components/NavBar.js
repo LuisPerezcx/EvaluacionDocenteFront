@@ -5,8 +5,17 @@ import '../Styles/NavBar.css';
 const NavBar = () => {
   return (
     <nav className="nav">
-      <Link to="/" className="link">Inicio</Link>
-      <Link to="/principal" className="link">Principal</Link>
+      <div className="nav-left">
+        <div className="nav-links">
+          <Link to="/principal" className="link">Principal</Link>
+        </div>
+      </div>
+      
+      <div className="nav-right">
+        <Link to="/">
+          <button className="logout-btn">Cerrar sesión</button>
+        </Link>
+      </div>
     </nav>
   );
 };
