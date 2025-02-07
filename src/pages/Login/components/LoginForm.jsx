@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Importa useNavigate
 import '../components/loginEstilos.css'; // Asegúrate de importar el archivo CSS
 
 function App() {
@@ -6,6 +7,8 @@ function App() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState(''); // Estado para el mensaje
+
+  const navigate = useNavigate(); // Crea una instancia de navigate
 
   // Manejador de eventos para el formulario
   const handleSubmit = (e) => {
@@ -24,6 +27,10 @@ function App() {
     // Validación de usuario y contraseña correctos
     if (username === 'admin' && password === 'admin123') {
       setMessage('¡Inicio de sesión exitoso!'); // Mostrar mensaje de éxito
+      // Redirigir a la página principal
+      setTimeout(() => {
+        navigate('/principal'); // Redirige a PrincipalPage después de 1 segundo
+      }, 1000);
     } else {
       // Si el usuario existe pero la contraseña es incorrecta
       if (username === 'admin') {

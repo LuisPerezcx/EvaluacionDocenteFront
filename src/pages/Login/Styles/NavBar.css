@@ -1,0 +1,15 @@
+/* Estilos para NavBar */
+.nav {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .link {
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+  }
+  
