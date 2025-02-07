@@ -7,6 +7,7 @@ import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied
 import SentimentSatisfiedIcon from '@mui/icons-material/SentimentSatisfied';
 import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAltOutlined';
 import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfied';
+import Swal from 'sweetalert2';
 
 const IconContainer = (props) => {
     const { value, ...other } = props;
@@ -15,7 +16,7 @@ const IconContainer = (props) => {
 
 const customIcons = {
     1: {
-        icon: <SentimentVeryDissatisfiedIcon />, 
+        icon: <SentimentVeryDissatisfiedIcon />,
         label: 'Muy Malo',
     },
     2: {
@@ -71,20 +72,52 @@ const FormularioCalificaciones = () => {
     };
 
     const handleSubmit = () => {
-        const hasRatings = Object.values(ratings).some((rating) => rating > 0);
-        const hasComments = comments.mejoras.trim() || comments.positivos.trim();
-
-        if (!hasRatings && !hasComments) {
-            alert("Debes calificar al menos un aspecto o agregar un comentario.");
+        const hasAllRatings = Object.values(ratings).every((rating) => rating > 0);
+    
+        if (!hasAllRatings) {
+            Swal.fire({
+                title: 'Error, campos insuficientes',
+                text: 'Debes calificar todos los aspectos.',
+                icon: 'error',
+                confirmButtonText: 'Aceptar',
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: () => {
+                    const confirmButton = Swal.getConfirmButton();
+                    confirmButton.style.backgroundColor = '#FF0033 ';
+                    confirmButton.style.color = '#fff';
+                    confirmButton.style.borderRadius = '5px';
+                    confirmButton.style.fontSize = '16px';
+                }
+            });
             return;
         }
-
-        alert("Formulario enviado con éxito.");
-        // Aquí puedes manejar el envío de datos
+    
+        Swal.fire({
+            title: 'Formulario enviado con éxito',
+            text: 'Gracias por tus calificaciones y comentarios.',
+            icon: 'success',
+            confirmButtonText: 'Aceptar',
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: () => {
+                const confirmButton = Swal.getConfirmButton();
+                confirmButton.style.backgroundColor = '#28a745';
+                confirmButton.style.color = '#fff';
+                confirmButton.style.borderRadius = '5px';
+                confirmButton.style.fontSize = '16px';
+            }
+        });
+        // Aquí se maneja el envío de datos
     };
+    
+    
+    
+    
+
 
     return (
-        <div style={{ padding: '40px', maxWidth: '900px', margin: 'auto', borderRadius: '10px'}}>
+        <div style={{ padding: '40px', maxWidth: '900px', margin: 'auto', borderRadius: '10px' }}>
             <h2>Formulario de Calificaciones</h2>
             <h3>Profesor: {professorName}</h3>
             <TableContainer component={Paper}>
@@ -96,7 +129,7 @@ const FormularioCalificaciones = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {[ 
+                        {[
                             { field: 'dominioTema', label: 'Dominio del Tema', question: '¿El maestro demuestra conocimientos sólidos en la materia?' },
                             { field: 'claridadExplicar', label: 'Claridad al Explicar', question: '¿Explica los temas de manera comprensible y estructurada?' },
                             { field: 'paciencia', label: 'Paciencia y Disposición', question: '¿Responde dudas sin impacientarse y busca distintas formas de explicar?' },
@@ -113,7 +146,7 @@ const FormularioCalificaciones = () => {
                                         <p style={{ margin: 0, fontSize: '0.9rem', color: '#666' }}>{aspect.question}</p>
                                     </div>
                                 </TableCell>
-                                <TableCell align="center" style={{ backgroundColor: '#f5f5f5', padding: '10px',}}>
+                                <TableCell align="center" style={{ backgroundColor: '#f5f5f5', padding: '10px', }}>
                                     <Rating
                                         name={aspect.field}
                                         value={ratings[aspect.field]}
@@ -154,7 +187,7 @@ const FormularioCalificaciones = () => {
                 style={{
                     marginTop: '20px',
                     padding: '10px 20px',
-                    backgroundColor: '#007bff',
+                    backgroundColor: '#00CC33  ',
                     color: '#fff',
                     border: 'none',
                     borderRadius: '5px',
