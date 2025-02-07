@@ -5,7 +5,8 @@ import PrincipalPage from './pages/Login/Principal/PrincipalPage';
 import FormularioCalificaciones from './pages/Login/Formulario/FormularioCalificaciones';
 import { Alumnos } from './pages/Alumnos/Alumnos';
 import { Administradores } from './pages/Administradores/Administradores';
-import ProtectedRoute from './components/ProtectedRoute';
+import ProtectedRoute from './components/ProtectedRoute';;
+import { Maestros } from './pages/Maestros/Maestros';
 
 const AppRoutes = () => {
   return (
@@ -48,6 +49,7 @@ const AppRoutes = () => {
           </ProtectedRoute>
         }
       />
+      <Route path='/Maestros' element={<Maestros/>} />
     </Routes>
   );
 };
