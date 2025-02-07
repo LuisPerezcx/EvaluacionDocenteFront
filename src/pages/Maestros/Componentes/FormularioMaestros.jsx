@@ -2,6 +2,7 @@ import React, { useState, forwardRef, useImperativeHandle } from 'react';
 import '../Formulario.css';
 import NavBar from '../../Login/components/NavBar';
 import  FooterComponent  from '../../../components/FooterComponent';
+import { useNavigate } from 'react-router-dom';
 
 
 export const FormularioMaestro = forwardRef(({ onAdd, editingMaestro, onCancel, onError = console.error }, ref) => {
@@ -10,6 +11,8 @@ export const FormularioMaestro = forwardRef(({ onAdd, editingMaestro, onCancel, 
     nombre: '',
     apellidos: '',
   });
+
+  const navigate = useNavigate();
 
   const [errors, setErrors] = useState({});
 
@@ -84,6 +87,7 @@ export const FormularioMaestro = forwardRef(({ onAdd, editingMaestro, onCancel, 
       apellidos: '',
     });
     if (onCancel) onCancel();
+    navigate('/principal');
   };
 
   return (

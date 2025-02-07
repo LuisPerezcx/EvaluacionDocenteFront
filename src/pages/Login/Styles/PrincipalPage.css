@@ -2,7 +2,7 @@
 .page-container {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 80vh;
   background-color: #f9f9f9;
 }
 
@@ -21,9 +21,10 @@
 
 .card-container {
   display: flex;
-  justify-content: space-around;
-  width: 80%;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 20px;
+  width: 80%;
 }
 
 .card {
@@ -32,12 +33,21 @@
   justify-content: center;
   align-items: center;
   border: 1px solid #ccc;
-  padding: 20px;
-  width: 30%;
+  padding: 80px;
+  width: 20%;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 12px;
   background-color: white;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card.hidden {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
 }
 
 .card:hover {
