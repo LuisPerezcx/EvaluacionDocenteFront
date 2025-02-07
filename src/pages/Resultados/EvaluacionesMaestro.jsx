@@ -32,6 +32,18 @@ const EvaluacionesMaestro = () => {
         obtenerEvaluaciones();
     }, [id]);
 
+    // Agrupar las evaluaciones por materia
+    const agruparPorMateria = (evaluaciones) => {
+        return evaluaciones.reduce((acc, evaluacion) => {
+            const materiaNombre = evaluacion.materia_nombre;
+            if (!acc[materiaNombre]) {
+                acc[materiaNombre] = [];
+            }
+            acc[materiaNombre].push(evaluacion);
+            return acc;
+        }, {});
+    };
+
     // Calcular el promedio por materia
     const calcularPromedioPorMateria = (aspectos) => {
         if (!aspectos || Object.keys(aspectos).length === 0) return 0;
@@ -48,6 +60,8 @@ const EvaluacionesMaestro = () => {
         return count > 0 ? total / count : 0;
     };
 
+    const evaluacionesAgrupadas = agruparPorMateria(evaluaciones);
+
     return (
         <>
             <NavBar />
@@ -58,47 +72,52 @@ const EvaluacionesMaestro = () => {
                 {error ? (
                     <p>No se pudieron cargar las evaluaciones del profesor.</p>
                 ) : (
-                    evaluaciones.length > 0 ? (
-                        evaluaciones.map((evaluacion, index) => {
-                            const promedioMateria = calcularPromedioPorMateria(evaluacion.aspectos);
+                    Object.keys(evaluacionesAgrupadas).length > 0 ? (
+                        Object.keys(evaluacionesAgrupadas).map((materia, index) => {
+                            const materiaEvaluaciones = evaluacionesAgrupadas[materia];
+                            const promedioMateria = calcularPromedioPorMateria(materiaEvaluaciones[0].aspectos);
 
                             return (
                                 <div key={index} className="evaluacion-item">
-                                    <h3>{evaluacion.materia_nombre}</h3>
+                                    <h3>{materia}</h3>
                                     <div className="promedio-materia">
                                         <strong>Promedio de la materia: </strong>
                                         <span>{promedioMateria.toFixed(2)}</span>
                                     </div>
 
-                                    <TableContainer component={Paper}>
-                                        <Table>
-                                            <TableHead>
-                                                <TableRow>
-                                                    <TableCell>Aspecto</TableCell>
-                                                    <TableCell align="center">Calificación</TableCell>
-                                                </TableRow>
-                                            </TableHead>
-                                            <TableBody>
-                                                {Object.entries(evaluacion.aspectos).map(([aspecto, calificacion]) => (
-                                                    <TableRow key={aspecto}>
-                                                        <TableCell>{aspecto.replace('_', ' ')}</TableCell>
-                                                        <TableCell align="center">
-                                                            <Rating value={calificacion} readOnly max={5} precision={0.5} />
-                                                        </TableCell>
-                                                    </TableRow>
-                                                ))}
-                                            </TableBody>
-                                        </Table>
-                                    </TableContainer>
+                                    {materiaEvaluaciones.map((evaluacion, index) => (
+                                        <div key={index}>
+                                            <TableContainer component={Paper}>
+                                                <Table>
+                                                    <TableHead>
+                                                        <TableRow>
+                                                            <TableCell>Aspecto</TableCell>
+                                                            <TableCell align="center">Calificación</TableCell>
+                                                        </TableRow>
+                                                    </TableHead>
+                                                    <TableBody>
+                                                        {Object.entries(evaluacion.aspectos).map(([aspecto, calificacion]) => (
+                                                            <TableRow key={aspecto}>
+                                                                <TableCell>{aspecto.replace('_', ' ')}</TableCell>
+                                                                <TableCell align="center">
+                                                                    <Rating value={calificacion} readOnly max={5} precision={0.5} />
+                                                                </TableCell>
+                                                            </TableRow>
+                                                        ))}
+                                                    </TableBody>
+                                                </Table>
+                                            </TableContainer>
 
-                                    <div className="comentarios">
-                                        <h4>Comentarios</h4>
-                                        <p><strong>Positivos:</strong> {evaluacion.comentarios.positivos || 'No hay comentarios positivos.'}</p>
-                                        <p><strong>Mejorar:</strong> {evaluacion.comentarios.mejorar || 'No hay sugerencias de mejora.'}</p>
-                                    </div>
+                                            <div className="comentarios">
+                                                <h4>Comentarios</h4>
+                                                <p><strong>Positivos:</strong> {evaluacion.comentarios.positivos || 'No hay comentarios positivos.'}</p>
+                                                <p><strong>Mejorar:</strong> {evaluacion.comentarios.mejorar || 'No hay sugerencias de mejora.'}</p>
+                                            </div>
+                                        </div>
+                                    ))}
 
                                     {/* Separador entre materias */}
-                                    {index < evaluaciones.length - 1 && <hr className="materia-separator" />}
+                                    {index < Object.keys(evaluacionesAgrupadas).length - 1 && <hr className="materia-separator" />}
                                 </div>
                             );
                         })

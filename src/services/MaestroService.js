@@ -61,11 +61,21 @@ const getEvaluacionesPorMaestro = async (id) => {
 }
 
 
+const getMateriasByMaestro = async (id) => {
+    try {
+        const response = await axiosInstance.get(`${API_URL}/${id}/materias`);
+        return response.data;
+    } catch (error) {
+        throw error.response.data;
+    }
+}
+
 export default {
     getAll,
     create,
     update,
     deleteMaestro,
     getPromedioById,
-    getEvaluacionesPorMaestro
+    getEvaluacionesPorMaestro,
+    getMateriasByMaestro,
 };
