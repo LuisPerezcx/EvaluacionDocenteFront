@@ -1,14 +1,13 @@
 import React, { useState, forwardRef, useImperativeHandle } from 'react';
 import '../Formulario.css';
-import { useNavigate } from 'react-router-dom';
 
 export const FormularioAlumno = forwardRef(({ onAdd, editingAlumno, onCancel, onError = console.error }, ref) => {
   const [formData, setFormData] = useState({
-    id: '',
-    nombre: '',
-    apellidos: '',
+    id_alumno: '',
+    nombre_alumno: '',
+    apellido_alumno: '',
     matricula: '',
-    contraseña: '',
+    contrasenia: '',
   });
 
   const [errors, setErrors] = useState({});
@@ -30,6 +29,7 @@ export const FormularioAlumno = forwardRef(({ onAdd, editingAlumno, onCancel, on
   };
 
   const validateField = (name, value) => {
+    if(name === 'id_alumno') return;
     let error = '';
     if (!value) error = 'Este campo es obligatorio.';
     setErrors((prevErrors) => ({
@@ -64,15 +64,20 @@ export const FormularioAlumno = forwardRef(({ onAdd, editingAlumno, onCancel, on
   const handleSubmit = async (e) => {
     e.preventDefault();
     
+    const isValid = validateAllFields();
+    if (!isValid) {
+      return; // Si no es válido, no se envía el formulario
+    }    
+    
     try {
       const nuevosErrores = await onAdd(formData);
       if (!nuevosErrores) {
         setFormData({
-          id: '',
-          nombre: '',
-          apellidos: '',
+          id_alumno: '',
+          nombre_alumno: '',
+          apellido_alumno: '',
           matricula: '',
-          contraseña: '',
+          contrasenia: '',
         });
       }
     } catch (error) {
@@ -80,18 +85,16 @@ export const FormularioAlumno = forwardRef(({ onAdd, editingAlumno, onCancel, on
     }
   };
 
-  const navigate = useNavigate();
 
   const handleCancel = () => {
     setFormData({
       id: '',
-      nombre: '',
-      apellidos: '',
+      nombre_alumno: '',
+      apellido_alumno: '',
       matricula: '',
-      contraseña: '',
+      contrasenia: '',
     });
     if (onCancel) onCancel();
-    navigate('/principal');
   };
 
   return (
@@ -99,14 +102,14 @@ export const FormularioAlumno = forwardRef(({ onAdd, editingAlumno, onCancel, on
       <div className="row mb-3">
         <div className="col-md-3">
           <label htmlFor="nombre" className="form-label">Nombre: <span className="text-danger">*</span></label>
-          <input type="text" id="nombre" name="nombre" className="form-control" value={formData.nombre} onChange={handleChange} />
-          {errors.nombre && <div className="text-danger">{errors.nombre}</div>}
+          <input type="text" id="nombre" name="nombre_alumno" className="form-control" value={formData.nombre_alumno} onChange={handleChange} />
+          {errors.nombre_alumno && <div className="text-danger">{errors.nombre_alumno}</div>}
         </div>
 
         <div className="col-md-3">
           <label htmlFor="apellidos" className="form-label">Apellidos: <span className="text-danger">*</span></label>
-          <input type="text" id="apellidos" name="apellidos" className="form-control" value={formData.apellidos} onChange={handleChange} />
-          {errors.apellidos && <div className="text-danger">{errors.apellidos}</div>}
+          <input type="text" id="apellidos" name="apellido_alumno" className="form-control" value={formData.apellido_alumno} onChange={handleChange} />
+          {errors.apellido_alumno && <div className="text-danger">{errors.apellido_alumno}</div>}
         </div>
 
         <div className="col-md-3">
@@ -118,12 +121,12 @@ export const FormularioAlumno = forwardRef(({ onAdd, editingAlumno, onCancel, on
         <div className="col-md-3">
           <label htmlFor="contraseña" className="form-label">Contraseña: <span className="text-danger">*</span></label>
           <div className="input-group">
-            <input type={showPassword ? "text" : "password"} id="contraseña" name="contraseña" className="form-control" value={formData.contraseña} onChange={handleChange} />
+            <input type={showPassword ? "text" : "password"} id="contraseña" name="contrasenia" className="form-control" value={formData.contrasenia} onChange={handleChange} />
             <button type="button" className="btn btn-outline-secondary" onClick={() => setShowPassword(!showPassword)}>
               <i className={`fa ${showPassword ? "fa-eye-slash" : "fa-eye"}`} />
             </button>
           </div>
-          {errors.contraseña && <div className="text-danger">{errors.contraseña}</div>}
+          {errors.contrasenia && <div className="text-danger">{errors.contrasenia}</div>}
         </div>
       </div>
 

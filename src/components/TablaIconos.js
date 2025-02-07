@@ -7,7 +7,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';  // Importar Bootstrap Icons 
 export function CustomTable({ data, columns, onEdit, onDelete, searchPlaceholder = 'Buscar...', edicion, onRowClick, showActions=true, mostrarAnimacion }) {
     const [searchQuery, setSearchQuery] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 4;
+    const itemsPerPage = 7;
 
     const filteredData = data?.filter(item =>
         columns.some(column =>
