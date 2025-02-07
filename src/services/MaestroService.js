@@ -5,7 +5,7 @@ const API_URL = '/maestros';
 const getAll = async () => {
     try {
         const response = await axiosInstance.get(API_URL);
-        return response.data;
+        return {data:response.data};
     } catch (error) {
         throw error.response.data;
     }
@@ -38,10 +38,34 @@ const deleteMaestro = async (id) => {
     }
 };
 
+const getPromedioById = async(id) => {
+    try {
+        const response = await axiosInstance.get(`${API_URL}/promedio/${id}`);
+        return {data:response.data, status:response.status};
+    } catch (error) {
+        const status = error.response?.status
+        if(status === 404) {
+            return {data:null, status};
+        }
+        throw error.response?.data || error.message;
+    }
+}
+
+const getEvaluacionesPorMaestro = async (id) => {
+    try {
+        const response = await axiosInstance.get(`${API_URL}/evaluaciones/${id}`);
+        return response.data;
+    } catch (error) {
+        throw error.response.data;
+    }
+}
+
 
 export default {
     getAll,
     create,
     update,
     deleteMaestro,
+    getPromedioById,
+    getEvaluacionesPorMaestro
 };

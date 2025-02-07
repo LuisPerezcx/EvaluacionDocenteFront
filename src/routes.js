@@ -8,6 +8,7 @@ import { Administradores } from './pages/Administradores/Administradores';
 import ProtectedRoute from './components/ProtectedRoute';
 import { Maestros } from './pages/Maestros/Maestros';
 import ResultadosEvaluaciones from './pages/Resultados/ResultadosEvaluaciones';
+import EvaluacionesMaestro from './pages/Resultados/EvaluacionesMaestro';
 
 
 const AppRoutes = () => {
@@ -53,20 +54,22 @@ const AppRoutes = () => {
       <Route
         path='/Maestros'
         element={
-          <ProtectedRoute allowedUserIds={[2]}>  
+          <ProtectedRoute allowedUserIds={[2]}>
             <Maestros />
           </ProtectedRoute>
         }
       />
 
-<Route
+      <Route
         path='/Resultados'
         element={
-          <ProtectedRoute allowedUserIds={[2]}>  
+          <ProtectedRoute allowedUserIds={[2]}>
             <ResultadosEvaluaciones />
           </ProtectedRoute>
         }
       />
+
+      <Route path="/evaluaciones/maestro" element={<EvaluacionesMaestro />} />
     </Routes>
   );
 };

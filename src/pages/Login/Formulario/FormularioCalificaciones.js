@@ -90,7 +90,7 @@ const FormularioCalificaciones = () => {
             alumno_id: id_alumno, // Este valor debe ser dinámico según el alumno
             maestro_id: id_maestro, // Este valor también debe ser dinámico según el maestro
             materia_id: id_materia, // Este valor
-            materia: materia, // Puedes obtener la materia desde la misma fuente que el maestro
+            materia_nombre: materia, // Puedes obtener la materia desde la misma fuente que el maestro
             aspectos: {
                 dominio_tema: ratings.dominioTema,
                 claridad_explicacion: ratings.claridadExplicar,
