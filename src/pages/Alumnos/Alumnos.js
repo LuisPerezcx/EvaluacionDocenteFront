@@ -1,5 +1,6 @@
 import React from "react";
 import TablaAlumnos from "./Componentes/TablaAlumnos";
+
 import NavBar from '../Login/components/NavBar';
 import FooterComponent from '../../components/FooterComponent';
 
