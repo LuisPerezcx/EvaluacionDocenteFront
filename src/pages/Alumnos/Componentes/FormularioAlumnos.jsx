@@ -1,5 +1,6 @@
 import React, { useState, forwardRef, useImperativeHandle } from 'react';
 import '../Formulario.css';
+import { Navigate } from 'react-router-dom';
 
 export const FormularioAlumno = forwardRef(({ onAdd, editingAlumno, onCancel, onError = console.error }, ref) => {
   const [formData, setFormData] = useState({
@@ -95,6 +96,8 @@ export const FormularioAlumno = forwardRef(({ onAdd, editingAlumno, onCancel, on
       contrasenia: '',
     });
     if (onCancel) onCancel();
+    Navigate('/principal');
+
   };
 
   return (
