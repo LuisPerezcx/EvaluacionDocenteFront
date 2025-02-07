@@ -4,7 +4,8 @@ import Login  from './pages/Login/Login';
 import PrincipalPage from './pages/Login/Principal/PrincipalPage';
 import FormularioCalificaciones from './pages/Login/Formulario/FormularioCalificaciones';
 import { Alumnos } from './pages/Alumnos/Alumnos'
-import { Administradores } from './pages/Administradores/Administradores'
+import { Administradores } from './pages/Administradores/Administradores';
+import { Maestros } from './pages/Maestros/Maestros';
 
 const AppRoutes = () => {
   return (
@@ -14,6 +15,7 @@ const AppRoutes = () => {
       <Route path="/formulario-calificaciones" element={<FormularioCalificaciones />} />
       <Route path='/Alumnos' element={<Alumnos/>} />
       <Route path='/Administradores' element={<Administradores/>} />
+      <Route path='/Maestros' element={<Maestros/>} />
     </Routes>
   );
 };
