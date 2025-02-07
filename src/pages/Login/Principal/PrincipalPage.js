@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';  
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../Styles/PrincipalPage.css';
 import NavBar from '../components/NavBar';
-import { Button, List, ListItem, ListItemText, Typography, Dialog, DialogTitle, DialogContent, DialogActions, Paper } from '@mui/material';
+import { Button, List, ListItem, ListItemText, Dialog, DialogTitle, DialogContent, DialogActions, Paper } from '@mui/material';
 import AlumnoService from '../../../services/AlumnoService';
 
 const PrincipalPage = () => {
@@ -11,7 +10,7 @@ const PrincipalPage = () => {
   const [open, setOpen] = useState(false);
   const [maestrosSelect, setMaestrosSelect] = useState([]);
   const [selectedProfessor, setSelectedProfessor] = useState(null);
-  const navigate = useNavigate();  
+  const navigate = useNavigate();
 
   const professors = [
     { id: 1, name: 'Profesor 1' },
@@ -48,6 +47,7 @@ const PrincipalPage = () => {
     
   },[userData?.id]);
 
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -56,33 +56,49 @@ const PrincipalPage = () => {
     handleClose();
     navigate('/formulario-calificaciones', { state: { professorName: professor.name } });
   };
-  
+
+  // Si no hay datos de usuario, puedes mostrar una carga o mensaje de error
+  if (!userData) {
+    return <div>Loading...</div>; // O algún otro tipo de indicador de carga
+  }
 
   return (
     <div className="page-container">
-      <NavBar /> 
+      <NavBar />
       <div className="text-center pt-5 mt-5">
-          <h1>Bienvenid@, {userData?.nombre}</h1> 
-          <div>
-            <h2>{userData.rol === 1 ? "Alumno" : userData.rol === 2 ? "Administrativo" : " "}</h2>
-          </div>
-      </div>
-      <div className="main-content">
-        <div className="card-container">
-          <div className="card">
-            <h3>Cuadro 1</h3>
-            <button className="button">Botón 1</button>
-          </div>
-          <div className="card">
-            <h3>Cuadro 2</h3>
-            <button className="button" onClick={handleOpen}>Calificar maestro</button>
-          </div>
-          <div className="card">
-            <h3>Cuadro 3</h3>
-            <button className="button">Botón 3</button>
-          </div>
+        <h1>Bienvenid@, {userData.nombre}</h1>
+        <div>
+          <h2>{userData.rol === 1 ? "Alumno" : userData.rol === 2 ? "Administrativo" : " "}</h2>
         </div>
       </div>
+      <div className="main-content">
+  <div className="card-container">
+    {/* Cuadro de formulario solo visible para el usuario con rol 1 (Alumno) */}
+    {userData.rol === 1 && (
+      <div className="card">
+        <h3>Formulario de evaluación</h3>
+        <button className="button" onClick={handleOpen}>Calificar maestro</button>
+      </div>
+    )}
+
+    {/* Cuadro de Alumnos visible solo para el usuario con rol 2 (Administrativo) */}
+    {userData.rol === 2 && (
+      <div className="card">
+        <h3>Alumnos</h3>
+        <button className="button">Ingresar</button>
+      </div>
+    )}
+
+    {/* Cuadro de Maestros visible solo para el usuario con rol 2 (Administrativo) */}
+    {userData.rol === 2 && (
+      <div className="card">
+        <h3>Maestros</h3>
+        <button className="button">Ingresar</button>
+      </div>
+    )}
+  </div>
+</div>
+
 
       {/* Modal sin oscurecer el fondo */}
       <Dialog open={open} onClose={handleClose} PaperComponent={Paper}>
