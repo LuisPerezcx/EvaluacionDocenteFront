@@ -15,12 +15,14 @@ const TablaMaestros = () => {
   }, [refreshTable]);
 
   const actualizarListaMaestros = async () => {
+    setEstadoCargando(true); 
     try {
-      const data = await MaestroService.getAll()
-      setMaestros(data);
-      setEstadoCargando(false);
+      const response = await MaestroService.getAll()
+      setMaestros(response.data);
     } catch (error) {
       console.log("Error al cargar los maestros: ", error);
+      showErrorMessage("No se pudieron cargar los maestros.");
+    } finally{
       setEstadoCargando(false);
     }
   };

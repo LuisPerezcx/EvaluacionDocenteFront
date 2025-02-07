@@ -5,7 +5,7 @@ import NavBar from '../Login/components/NavBar';
 import FooterComponent from '../../components/FooterComponent';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import Rating from '@mui/material/Rating';
-import './evaluacionesMaestro.css'
+import './evaluacionesMaestro.css';
 
 const EvaluacionesMaestro = () => {
     const location = useLocation();
@@ -32,6 +32,22 @@ const EvaluacionesMaestro = () => {
         obtenerEvaluaciones();
     }, [id]);
 
+    // Calcular el promedio por materia
+    const calcularPromedioPorMateria = (aspectos) => {
+        if (!aspectos || Object.keys(aspectos).length === 0) return 0;
+
+        let total = 0;
+        let count = 0;
+
+        // Recorremos los aspectos y calculamos la suma
+        Object.values(aspectos).forEach(calificacion => {
+            total += calificacion;
+            count++;
+        });
+
+        return count > 0 ? total / count : 0;
+    };
+
     return (
         <>
             <NavBar />
@@ -43,37 +59,49 @@ const EvaluacionesMaestro = () => {
                     <p>No se pudieron cargar las evaluaciones del profesor.</p>
                 ) : (
                     evaluaciones.length > 0 ? (
-                        evaluaciones.map((evaluacion, index) => (
-                            <div key={index} className="evaluacion-item">
-                                <h3> {evaluacion.materia_nombre}</h3>
-                                <TableContainer component={Paper}>
-                                    <Table>
-                                        <TableHead>
-                                            <TableRow>
-                                                <TableCell>Aspecto</TableCell>
-                                                <TableCell align="center">Calificación</TableCell>
-                                            </TableRow>
-                                        </TableHead>
-                                        <TableBody>
-                                            {Object.entries(evaluacion.aspectos).map(([aspecto, calificacion]) => (
-                                                <TableRow key={aspecto}>
-                                                    <TableCell>{aspecto.replace('_', ' ')}</TableCell>
-                                                    <TableCell align="center">
-                                                        <Rating value={calificacion} readOnly max={5} precision={0.5} />
-                                                    </TableCell>
-                                                </TableRow>
-                                            ))}
-                                        </TableBody>
-                                    </Table>
-                                </TableContainer>
+                        evaluaciones.map((evaluacion, index) => {
+                            const promedioMateria = calcularPromedioPorMateria(evaluacion.aspectos);
 
-                                <div className="comentarios">
-                                    <h4>Comentarios</h4>
-                                    <p><strong>Positivos:</strong> {evaluacion.comentarios.positivos || 'No hay comentarios positivos.'}</p>
-                                    <p><strong>Mejorar:</strong> {evaluacion.comentarios.mejorar || 'No hay sugerencias de mejora.'}</p>
+                            return (
+                                <div key={index} className="evaluacion-item">
+                                    <h3>{evaluacion.materia_nombre}</h3>
+                                    <div className="promedio-materia">
+                                        <strong>Promedio de la materia: </strong>
+                                        <span>{promedioMateria.toFixed(2)}</span>
+                                    </div>
+
+                                    <TableContainer component={Paper}>
+                                        <Table>
+                                            <TableHead>
+                                                <TableRow>
+                                                    <TableCell>Aspecto</TableCell>
+                                                    <TableCell align="center">Calificación</TableCell>
+                                                </TableRow>
+                                            </TableHead>
+                                            <TableBody>
+                                                {Object.entries(evaluacion.aspectos).map(([aspecto, calificacion]) => (
+                                                    <TableRow key={aspecto}>
+                                                        <TableCell>{aspecto.replace('_', ' ')}</TableCell>
+                                                        <TableCell align="center">
+                                                            <Rating value={calificacion} readOnly max={5} precision={0.5} />
+                                                        </TableCell>
+                                                    </TableRow>
+                                                ))}
+                                            </TableBody>
+                                        </Table>
+                                    </TableContainer>
+
+                                    <div className="comentarios">
+                                        <h4>Comentarios</h4>
+                                        <p><strong>Positivos:</strong> {evaluacion.comentarios.positivos || 'No hay comentarios positivos.'}</p>
+                                        <p><strong>Mejorar:</strong> {evaluacion.comentarios.mejorar || 'No hay sugerencias de mejora.'}</p>
+                                    </div>
+
+                                    {/* Separador entre materias */}
+                                    {index < evaluaciones.length - 1 && <hr className="materia-separator" />}
                                 </div>
-                            </div>
-                        ))
+                            );
+                        })
                     ) : (
                         <p>No hay evaluaciones registradas para este profesor.</p>
                     )
