@@ -1,0 +1,46 @@
+/* Estilos para PrincipalPage */
+.page-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+  /* Asegura que el modal no oscurezca toda la pantalla */
+.MuiModal-root {
+  background-color: transparent !important;
+}
+
+  .main-content {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .card-container {
+    display: flex;
+    justify-content: space-around;
+    width: 80%;
+  }
+  
+  .card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #ccc;
+    padding: 20px;
+    width: 30%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+  }
+  
+  .button {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
