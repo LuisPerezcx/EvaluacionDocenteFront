@@ -88,6 +88,7 @@ export const FormularioMaestro = forwardRef(({ onAdd, editingMaestro, onCancel, 
       apellido_maestro: '',
     });
     if (onCancel) onCancel();
+    navigate('/principal');
   };
 
   return (
