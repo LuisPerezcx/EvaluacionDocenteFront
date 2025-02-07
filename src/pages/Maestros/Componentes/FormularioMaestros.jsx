@@ -88,7 +88,7 @@ export const FormularioMaestro = forwardRef(({ onAdd, editingMaestro, onCancel, 
 
   return (
     <>
-                                <NavBar />
+
     <form className="gx-2 align-items-center" onSubmit={handleSubmit}>
 
 
@@ -113,7 +113,6 @@ export const FormularioMaestro = forwardRef(({ onAdd, editingMaestro, onCancel, 
                         
       
     </form>
-    <FooterComponent/>
     </>
   );
 });
