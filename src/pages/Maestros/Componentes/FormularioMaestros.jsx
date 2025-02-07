@@ -1,7 +1,5 @@
 import React, { useState, forwardRef, useImperativeHandle } from 'react';
 import '../Formulario.css';
-import NavBar from '../../Login/components/NavBar';
-import  FooterComponent  from '../../../components/FooterComponent';
 import { useNavigate } from 'react-router-dom';
 
 
