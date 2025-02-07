@@ -87,6 +87,14 @@ const ResultadosEvaluaciones = () => {
         navigate('/evaluaciones/maestro', { state: { id: profesorSeleccionado.value } });
     };
 
+    const calcularPromedioGeneral = () => {
+        if (!resultados || !resultados.aspectos) return 0;
+        const aspectos = Object.values(resultados.aspectos);
+        const suma = aspectos.reduce((total, calificacion) => total + calificacion, 0);
+        return suma / aspectos.length;
+    };
+
+    const promedioGeneral = calcularPromedioGeneral();
 
     return (
         <>
@@ -111,7 +119,12 @@ const ResultadosEvaluaciones = () => {
                     </Select>
                 </FormControl>
                 
-                <h3 className="resultados-subtitle">Profesor: {profesorSeleccionado ? profesorSeleccionado.label : "No seleccionado"}</h3>
+                <div className='d-flex justify-content-between'>
+                    <h3 className="resultados-subtitle ms-5">Profesor: {profesorSeleccionado ? profesorSeleccionado.label : "No seleccionado"}</h3>
+                    <div className="promedio-general me-5">
+                        <h4>Promedio General: <strong>{promedioGeneral.toFixed(2)}</strong></h4>
+                    </div>
+                </div>
                 {error ? (
                     // Si hay error, solo muestra el mensaje de que no hay evaluaciones
                     <p>No hay evaluaciones para este profesor.</p>
