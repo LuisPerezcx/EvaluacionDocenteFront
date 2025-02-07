@@ -11,7 +11,7 @@ const NavBar = () => {
   };
 
   return (
-    <nav className="nav">
+    <nav className="nav bg-success mb-5">
       <Link to="/principal" className="link">Principal</Link>
       <button className="btn btn-danger ms-auto" onClick={handleLogout}>
         Cerrar sesión

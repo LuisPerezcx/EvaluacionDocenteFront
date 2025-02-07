@@ -12,16 +12,10 @@ const PrincipalPage = () => {
   const [selectedProfessor, setSelectedProfessor] = useState(null);
   const navigate = useNavigate();
 
-  const professors = [
-    { id: 1, name: 'Profesor 1' },
-    { id: 2, name: 'Profesor 2' },
-    { id: 3, name: 'Profesor 3' },
-    { id: 4, name: 'Profesor 4' },
-  ];
 
   useEffect(() => {
     const obtenerMaestros = async () => {
-      setMaestrosSelect([{ }]);
+      setMaestrosSelect([]);
 
       let id = userData.id;
       try{
@@ -30,7 +24,7 @@ const PrincipalPage = () => {
         if (response && response.data) {
           const opciones = response.data.map((item) => {
             return {
-              value: String(item.id_maestro)  +'-'+ String(item.id_materia),
+              value: String(item.id_maestro)  +'-'+ String(item.id_materia) + '-' + item.nombre_materia,
               label: `${item.nombre_maestro} ${item.apellido_maestro} (${item.nombre_materia})`
             };
           });
@@ -55,9 +49,9 @@ const PrincipalPage = () => {
     setSelectedProfessor(professor);
     handleClose();
 
-    const [id_maestro, id_materia] = professor.value.split('-');
+    const [id_maestro, id_materia, nombre_materia] = professor.value.split('-');
 
-    navigate('/formulario-calificaciones', { state: { id_maestro, id_materia, professorName: professor.label } });
+    navigate('/formulario-calificaciones', { state: { id_alumno:userData?.id, id_maestro, id_materia, professorName: professor.labelm, nombre_materia } });
   };
 
   // Si no hay datos de usuario, puedes mostrar una carga o mensaje de error
