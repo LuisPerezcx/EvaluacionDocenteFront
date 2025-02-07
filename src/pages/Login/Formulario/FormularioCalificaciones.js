@@ -246,6 +246,7 @@ const FormularioCalificaciones = () => {
             <FooterComponent></FooterComponent>
         </>
     );
+    
 };
 
 export default FormularioCalificaciones;

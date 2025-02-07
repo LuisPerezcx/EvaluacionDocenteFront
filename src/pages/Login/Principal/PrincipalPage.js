@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../Styles/PrincipalPage.css';
 import NavBar from '../components/NavBar';
+import  FooterComponent  from '../../../components/FooterComponent';
 import { Button, List, ListItem, ListItemText, Dialog, DialogTitle, DialogContent, DialogActions, Paper } from '@mui/material';
 import AlumnoService from '../../../services/AlumnoService';
 
@@ -60,8 +61,10 @@ const PrincipalPage = () => {
   }
 
   return (
+    <>
+          <NavBar />
+
     <div className="page-container">
-      <NavBar />
       <div className="text-center pt-5 mt-5">
         <h1>Bienvenid@, {userData.nombre}</h1>
         <div>
@@ -120,6 +123,9 @@ const PrincipalPage = () => {
         </DialogActions>
       </Dialog>
     </div>
+        <FooterComponent/>
+
+    </>
   );
 };
 

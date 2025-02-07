@@ -11,7 +11,7 @@ import {
 
 export default function App() {
   return (
-    <MDBFooter className='bg-success text-center text-white mt-5'>
+    <MDBFooter className='bg-success text-center text-white'>
       <MDBContainer className='p-4 pb-0'>
         <section className='mb-4'>
           <MDBBtn outline color="light" floating className='m-1' href='#!' role='button'>
