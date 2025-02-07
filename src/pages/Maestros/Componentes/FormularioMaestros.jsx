@@ -1,24 +1,25 @@
 import React, { useState, forwardRef, useImperativeHandle } from 'react';
 import '../Formulario.css';
-import NavBar from '../../Login/components/NavBar';
-import  FooterComponent  from '../../../components/FooterComponent';
 import { useNavigate } from 'react-router-dom';
-
 
 export const FormularioMaestro = forwardRef(({ onAdd, editingMaestro, onCancel, onError = console.error }, ref) => {
   const [formData, setFormData] = useState({
-    id: '',
-    nombre: '',
-    apellidos: '',
+    id_maestro: '',
+    nombre_maestro: '',
+    apellido_maestro: '',
   });
 
   const navigate = useNavigate();
-
   const [errors, setErrors] = useState({});
 
   React.useEffect(() => {
     if (editingMaestro) {
-      setFormData(editingMaestro);
+      console.log(editingMaestro);
+      setFormData({
+        id_maestro: editingMaestro.id_maestro || '',
+        nombre_maestro: editingMaestro.nombre_maestro || '',
+        apellido_maestro: editingMaestro.apellido_maestro || '',
+      });
     }
   }, [editingMaestro]);
 
@@ -70,9 +71,9 @@ export const FormularioMaestro = forwardRef(({ onAdd, editingMaestro, onCancel, 
       const nuevosErrores = await onAdd(formData);
       if (!nuevosErrores) {
         setFormData({
-          id: '',
-          nombre: '',
-          apellidos: '',
+          id_maestro: '',
+          nombre_maestro: '',
+          apellido_maestro: '',
         });
       }
     } catch (error) {
@@ -82,31 +83,40 @@ export const FormularioMaestro = forwardRef(({ onAdd, editingMaestro, onCancel, 
 
   const handleCancel = () => {
     setFormData({
-      id: '',
-      nombre: '',
-      apellidos: '',
+      id_maestro: '',
+      nombre_maestro: '',
+      apellido_maestro: '',
     });
     if (onCancel) onCancel();
-    navigate('/principal');
   };
 
   return (
-    <>
-
     <form className="gx-2 align-items-center" onSubmit={handleSubmit}>
-
-
       <div className="row mb-3">
         <div className="col-md-6">
-          <label htmlFor="nombre" className="form-label">Nombre: <span className="text-danger">*</span></label>
-          <input type="text" id="nombre" name="nombre" className="form-control" value={formData.nombre} onChange={handleChange} />
-          {errors.nombre && <div className="text-danger">{errors.nombre}</div>}
+          <label htmlFor="nombre_maestro" className="form-label">Nombre: <span className="text-danger">*</span></label>
+          <input
+            type="text"
+            id="nombre_maestro"
+            name="nombre_maestro"
+            className="form-control"
+            value={formData.nombre_maestro}
+            onChange={handleChange}
+          />
+          {errors.nombre_maestro && <div className="text-danger">{errors.nombre_maestro}</div>}
         </div>
 
         <div className="col-md-6">
-          <label htmlFor="apellidos" className="form-label">Apellidos: <span className="text-danger">*</span></label>
-          <input type="text" id="apellidos" name="apellidos" className="form-control" value={formData.apellidos} onChange={handleChange} />
-          {errors.apellidos && <div className="text-danger">{errors.apellidos}</div>}
+          <label htmlFor="apellido_maestro" className="form-label">Apellidos: <span className="text-danger">*</span></label>
+          <input
+            type="text"
+            id="apellido_maestro"
+            name="apellido_maestro"
+            className="form-control"
+            value={formData.apellido_maestro}
+            onChange={handleChange}
+          />
+          {errors.apellido_maestro && <div className="text-danger">{errors.apellido_maestro}</div>}
         </div>
       </div>
 
@@ -114,10 +124,7 @@ export const FormularioMaestro = forwardRef(({ onAdd, editingMaestro, onCancel, 
         <button className="btn btn-success" type="submit">{editingMaestro ? "Actualizar Maestro" : "Agregar Maestro"}</button>
         <button className="btn btn-secondary ms-3" type="button" onClick={handleCancel}>Cancelar</button>
       </div>
-                        
-      
     </form>
-    </>
   );
 });
 

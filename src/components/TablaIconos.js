@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Table from 'react-bootstrap/Table';
 import Pagination from 'react-bootstrap/Pagination';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';  // Importar Bootstrap Icons CSS
 
 export function CustomTable({ data, columns, onEdit, onDelete, searchPlaceholder = 'Buscar...', edicion, onRowClick, showActions=true, mostrarAnimacion }) {
     const [searchQuery, setSearchQuery] = useState('');
@@ -72,18 +73,18 @@ export function CustomTable({ data, columns, onEdit, onDelete, searchPlaceholder
                                     ))}
                                     {showActions && (
                                         <>
-                                            <td className="celda-icono">
+                                            <td className="celda-icono text-center">
                                                 {onEdit && (
                                                     <button
                                                         className="boton-icono"
                                                         onClick={() => onEdit(item)}
                                                         title="Editar"
                                                     >
-                                                        <i className="bi bi-pencil-square icono-editar"></i>
+                                                        <i className="bi bi-pen icono-editar"></i>
                                                     </button>
                                                 )}
                                             </td>
-                                            <td className="celda-icono">
+                                            <td className="celda-icono text-center">
                                                 {edicion === null && onDelete && (
                                                     <button
                                                         className="boton-icono"
