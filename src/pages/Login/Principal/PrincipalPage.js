@@ -5,6 +5,7 @@ import NavBar from '../components/NavBar';
 import { Button, List, ListItem, ListItemText, Dialog, DialogTitle, DialogContent, DialogActions, Paper } from '@mui/material';
 
 const PrincipalPage = () => {
+  const userData = JSON.parse(localStorage.getItem('userData'));
   const [open, setOpen] = useState(false);
   const [selectedProfessor, setSelectedProfessor] = useState(null);
   const navigate = useNavigate();  
@@ -30,7 +31,12 @@ const PrincipalPage = () => {
   return (
     <div className="page-container">
       <NavBar /> 
-
+      <div className="text-center pt-5 mt-5">
+          <h1>Bienvenid@, {userData?.nombre}</h1> 
+          <div>
+            <h2>{userData.rol === 1 ? "Alumno" : userData.rol === 2 ? "Administrativo" : " "}</h2>
+          </div>
+      </div>
       <div className="main-content">
         <div className="card-container">
           {/* Cuadro 1 solo visible para usuario con ID 1 */}

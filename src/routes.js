@@ -3,6 +3,8 @@ import { Routes, Route } from 'react-router-dom';
 import Login  from './pages/Login/Login';
 import PrincipalPage from './pages/Login/Principal/PrincipalPage';
 import FormularioCalificaciones from './pages/Login/Formulario/FormularioCalificaciones';
+import { Alumnos } from './pages/Alumnos/Alumnos'
+import { Administradores } from './pages/Administradores/Administradores'
 
 const AppRoutes = () => {
   return (
@@ -10,6 +12,8 @@ const AppRoutes = () => {
       <Route path="/" element={<Login />} />
       <Route path="/principal" element={<PrincipalPage />} />
       <Route path="/formulario-calificaciones" element={<FormularioCalificaciones />} />
+      <Route path='/Alumnos' element={<Alumnos/>} />
+      <Route path='/Administradores' element={<Administradores/>} />
     </Routes>
   );
 };

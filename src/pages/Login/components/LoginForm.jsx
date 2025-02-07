@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Importa useNavigate
 import '../components/loginEstilos.css'; // Asegúrate de importar el archivo CSS
+import LoginService from '../../../services/LoginService';
 
 function App() {
   // Estado para manejar los valores de usuario y contraseña
@@ -11,9 +12,8 @@ function App() {
   const navigate = useNavigate(); // Crea una instancia de navigate
 
   // Manejador de eventos para el formulario
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Detener el evento submit para evitar redirecciones innecesarias
     // Validación de campos vacíos
     if (!username) {
       setMessage('El campo de usuario no puede estar vacio.');
@@ -24,20 +24,34 @@ function App() {
       return;
     }
 
-    // Validación de usuario y contraseña correctos
-    if (username === 'admin' && password === 'admin123') {
-      setMessage('¡Inicio de sesión exitoso!'); // Mostrar mensaje de éxito
-      // Redirigir a la página principal
-      setTimeout(() => {
-        navigate('/principal'); // Redirige a PrincipalPage después de 1 segundo
-      }, 1000);
-    } else {
-      // Si el usuario existe pero la contraseña es incorrecta
-      if (username === 'admin') {
-        setMessage('Contraseña incorrecta');
+    try{
+      const response = await LoginService.login(username, password);
+      if (response.status ===200){
+        console.log(response);
+        const userData = {
+          rol: response.data.rol,
+          nombre: response.data.nombre
+        };
+  
+        if(response.data.rol===1){
+          userData.id = response.data.id;
+        }
+
+        localStorage.setItem('userData', JSON.stringify(userData));
+
+        setMessage('¡Inicio de sesión exitoso!'); // Mostrar mensaje de éxito
+        // Redirigir a la página principal
+        setTimeout(() => {
+          navigate('/principal'); // Redirige a PrincipalPage después de 1 segundo
+        }, 300);
       } else {
-        setMessage('Usuario no encontrado');
+        setMessage('Credenciales incorrectas')
       }
+
+    } catch(error){
+      console.error('Error al iniciar sesión: ', error);
+      setMessage('Error al iniciar sesión'); // Mostrar mensaje de error en caso de falla en el servicio
+      return; // Detener la ejecución del evento submit para evitar redirecciones innecesarias
     }
   };
 
