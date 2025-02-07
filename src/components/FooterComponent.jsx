@@ -5,8 +5,6 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import {
   MDBFooter,
   MDBContainer,
-  MDBCol,
-  MDBRow,
   MDBIcon,
   MDBBtn
 } from 'mdb-react-ui-kit';
