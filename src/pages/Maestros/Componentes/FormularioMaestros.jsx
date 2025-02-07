@@ -1,5 +1,8 @@
 import React, { useState, forwardRef, useImperativeHandle } from 'react';
 import '../Formulario.css';
+import NavBar from '../../Login/components/NavBar';
+import  FooterComponent  from '../../../components/FooterComponent';
+
 
 export const FormularioMaestro = forwardRef(({ onAdd, editingMaestro, onCancel, onError = console.error }, ref) => {
   const [formData, setFormData] = useState({
@@ -84,7 +87,11 @@ export const FormularioMaestro = forwardRef(({ onAdd, editingMaestro, onCancel, 
   };
 
   return (
+    <>
+                                <NavBar />
     <form className="gx-2 align-items-center" onSubmit={handleSubmit}>
+
+
       <div className="row mb-3">
         <div className="col-md-6">
           <label htmlFor="nombre" className="form-label">Nombre: <span className="text-danger">*</span></label>
@@ -103,7 +110,11 @@ export const FormularioMaestro = forwardRef(({ onAdd, editingMaestro, onCancel, 
         <button className="btn btn-success" type="submit">{editingMaestro ? "Actualizar Maestro" : "Agregar Maestro"}</button>
         <button className="btn btn-secondary ms-3" type="button" onClick={handleCancel}>Cancelar</button>
       </div>
+                        
+      
     </form>
+    <FooterComponent/>
+    </>
   );
 });
 

@@ -9,6 +9,9 @@ import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAlt
 import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfied';
 import Swal from 'sweetalert2';
 import '../Styles/FormularioCalificaciones.css';
+import  FooterComponent  from '../../../components/FooterComponent';
+import NavBar from '../components/NavBar';
+
 
 // Custom Icons for Rating
 const customIcons = {
@@ -118,7 +121,11 @@ const FormularioCalificaciones = () => {
     );
 
     return (
+        <>
+        <NavBar />
+
         <div className="form-container">
+
             <h2 className="form-title">Formulario de Calificaciones</h2>
             <h3 className="form-subtitle">Profesor: {professorName}</h3>
             <TableContainer component={Paper} className="table-container">
@@ -169,8 +176,12 @@ const FormularioCalificaciones = () => {
             <button onClick={handleSubmit} className="submit-button">
                 Enviar Evaluación
             </button>
+                  
         </div>
+        <FooterComponent/>
+        </>
     );
+    
 };
 
 export default FormularioCalificaciones;
