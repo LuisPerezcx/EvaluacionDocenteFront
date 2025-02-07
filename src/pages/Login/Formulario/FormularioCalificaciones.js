@@ -8,7 +8,6 @@ import SentimentSatisfiedIcon from '@mui/icons-material/SentimentSatisfied';
 import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAltOutlined';
 import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfied';
 
-
 const IconContainer = (props) => {
     const { value, ...other } = props;
     return <span {...other}>{customIcons[value]?.icon}</span>;
@@ -16,7 +15,7 @@ const IconContainer = (props) => {
 
 const customIcons = {
     1: {
-        icon: <SentimentVeryDissatisfiedIcon />,
+        icon: <SentimentVeryDissatisfiedIcon />, 
         label: 'Muy Malo',
     },
     2: {
@@ -52,11 +51,36 @@ const FormularioCalificaciones = () => {
         motivacion: 0,
     });
 
+    const [comments, setComments] = useState({
+        mejoras: '',
+        positivos: '',
+    });
+
     const handleRatingChange = (field, newValue) => {
         setRatings((prevRatings) => ({
             ...prevRatings,
             [field]: newValue,
         }));
+    };
+
+    const handleCommentChange = (field, value) => {
+        setComments((prevComments) => ({
+            ...prevComments,
+            [field]: value,
+        }));
+    };
+
+    const handleSubmit = () => {
+        const hasRatings = Object.values(ratings).some((rating) => rating > 0);
+        const hasComments = comments.mejoras.trim() || comments.positivos.trim();
+
+        if (!hasRatings && !hasComments) {
+            alert("Debes calificar al menos un aspecto o agregar un comentario.");
+            return;
+        }
+
+        alert("Formulario enviado con éxito.");
+        // Aquí puedes manejar el envío de datos
     };
 
     return (
@@ -72,7 +96,7 @@ const FormularioCalificaciones = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {[
+                        {[ 
                             { field: 'dominioTema', label: 'Dominio del Tema', question: '¿El maestro demuestra conocimientos sólidos en la materia?' },
                             { field: 'claridadExplicar', label: 'Claridad al Explicar', question: '¿Explica los temas de manera comprensible y estructurada?' },
                             { field: 'paciencia', label: 'Paciencia y Disposición', question: '¿Responde dudas sin impacientarse y busca distintas formas de explicar?' },
@@ -98,14 +122,48 @@ const FormularioCalificaciones = () => {
                                         getLabelText={(value) => customIcons[value]?.label || ''}
                                         IconContainerComponent={IconContainer}
                                     />
-
                                 </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
-
                 </Table>
             </TableContainer>
+
+            <div style={{ marginTop: '20px' }}>
+                <h4>¿Qué aspectos crees que el profesor podría mejorar? (Opcional)</h4>
+                <textarea
+                    rows="4"
+                    style={{ width: '100%', padding: '8px', borderRadius: '5px', border: '1px solid #ccc' }}
+                    value={comments.mejoras}
+                    onChange={(e) => handleCommentChange('mejoras', e.target.value)}
+                />
+            </div>
+
+            <div style={{ marginTop: '20px' }}>
+                <h4>¿Qué aspectos positivos destacarías de este profesor? (Opcional)</h4>
+                <textarea
+                    rows="4"
+                    style={{ width: '100%', padding: '8px', borderRadius: '5px', border: '1px solid #ccc' }}
+                    value={comments.positivos}
+                    onChange={(e) => handleCommentChange('positivos', e.target.value)}
+                />
+            </div>
+
+            <button
+                onClick={handleSubmit}
+                style={{
+                    marginTop: '20px',
+                    padding: '10px 20px',
+                    backgroundColor: '#007bff',
+                    color: '#fff',
+                    border: 'none',
+                    borderRadius: '5px',
+                    cursor: 'pointer',
+                    fontSize: '16px',
+                }}
+            >
+                Enviar Evaluación
+            </button>
         </div>
     );
 };
