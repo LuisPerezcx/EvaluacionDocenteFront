@@ -12,10 +12,17 @@ const NavBar = () => {
 
   return (
     <nav className="nav bg-success">
-      <Link to="/principal" className="link">Principal</Link>
-      <button className="btn btn-danger ms-auto" onClick={handleLogout}>
-        Cerrar sesión
-      </button>
+      <div className="nav-left">
+        <div className="nav-links">
+          <Link to="/principal" className="link">Principal</Link>
+          {/* Otros enlaces aquí */}
+        </div>
+      </div>
+      <div className="nav-right">
+        <button className="btn btn-danger" onClick={handleLogout}>
+          Cerrar sesión
+        </button>
+      </div>
     </nav>
   );
 };

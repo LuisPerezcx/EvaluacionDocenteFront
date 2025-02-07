@@ -31,6 +31,10 @@
   gap: 20px;
 }
 
+.nav-links .link:first-child {
+  margin-left: 40px; /* Aumenta el margen izquierdo de "Principal" */
+}
+
 .nav-right {
   display: flex;
   gap: 20px;
@@ -79,10 +83,14 @@
   .nav-links {
     flex-direction: column;
     gap: 10px;
+    margin-left: 20px;
   }
 
   .nav-right {
     flex-direction: column;
     gap: 10px;
+    width: 100%;
+    align-items: flex-start;
+    margin-left: 20px;
   }
 }
